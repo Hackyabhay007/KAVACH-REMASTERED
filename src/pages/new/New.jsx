@@ -9,7 +9,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 // import { useNavigate } from 'react-router-dom';
 
-function Signup(props) {
+function New(props) {
   
   let latitude = props.lat;
   let longitude = props.lng;
@@ -108,4 +108,4 @@ function Signup(props) {
   )
 }
 
-export default Signup
+export default New

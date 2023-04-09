@@ -54,14 +54,7 @@ function App() {
                   </RequireAuth>
                 }
               />
-              <Route
-                path="history"
-                element={
-                  <RequireAuth>
-                    <HistoryList/>
-                  </RequireAuth>
-                }
-              />
+            
             </Route>
             <Route path="new">
               <Route
@@ -72,6 +65,16 @@ function App() {
                   </RequireAuth>
                 }
               />
+            <Route path="history">
+               <Route
+                 index
+                 element={
+                   <RequireAuth>
+                     <HistoryList/>
+                   </RequireAuth>
+                 }
+               />
+               </Route>
               <Route
                 path=":productId"
                 element={

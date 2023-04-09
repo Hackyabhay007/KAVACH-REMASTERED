@@ -1,10 +1,9 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Datatable from "../../components/datatable/Datatable"
-import HistoryTable from "../../components/datatable/HistoryTable"
+import HistoryTable from "../../components/history/Historytable"
 
-const List = () => {
+const HistoryList = () => {
   return (
     <div className="list">
       <Sidebar/>
@@ -16,4 +15,4 @@ const List = () => {
   )
 }
 
-export default List
+export default HistoryList
