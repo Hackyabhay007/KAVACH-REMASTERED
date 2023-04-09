@@ -55,7 +55,9 @@ const Datatable = () => {
               audioRef.current.play();
             } 
             list.push({ id: doc.id, ...doc.data() });
+           
           }
+          console.log(list);
         });
         setData(list);
       },
@@ -142,7 +144,7 @@ const Datatable = () => {
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
+        // checkboxSelection
       />
     </div>
   );
