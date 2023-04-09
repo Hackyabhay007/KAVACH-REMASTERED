@@ -7,22 +7,19 @@ import { db } from '../../firebase'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import getLocation from "../../components/getLocation"
 // import { useNavigate } from 'react-router-dom';
 
 function New(props) {
   
-  let latitude = props.lat;
-  let longitude = props.lng;
+
   
-  function addLocation(latitude, longitude) {
-  let location = new firebase.firestore.GeoPoint(latitude,longitude);
-  return location;
-  
-  }
- 
-  // let lastloc=addLocation(latitude,longitude);
-  
-  
+
+  const [location, setLocation] = useState(null);
+  const [Locationfb, setLocationfb] = useState(null);
+
+
+
         const [err,setErr] = useState(false);
         // const navigate = useNavigate();
         const handleSubmit = async (e) => {
@@ -32,21 +29,28 @@ function New(props) {
         const phonenumber=e.target[2].value;
         const city=e.target[3].value;
         const state=e.target[4].value;
-        // const location='fsdfsdfsd';
-        const pincode=e.target[6].value;
-        const password=e.target[7].value;
+        const pincode=e.target[5].value;
+        const password=e.target[6].value;
+        const location=Locationfb;
         try{
-          const res = await createUserWithEmailAndPassword(auth, email, password)
-          await setDoc(doc(db,'Policedb',res.user.uid),{
-            uid:res.user.uid,
-            stationName,
-            email,
-            phonenumber,
-            city,
-            state,
-            // location,
-            pincode,
-          }); 
+       if(location!=null)
+       {
+        
+        const res = await createUserWithEmailAndPassword(auth, email, password)
+        await setDoc(doc(db,'Policedb',res.user.uid),{
+          uid:res.user.uid,
+          stationName,
+          email,
+          phonenumber,
+          city,
+          state,
+          pincode,
+          location,
+        }); 
+       }
+       else{
+        alert("Allow Location permission and Wait for 5 seconds")
+       }
         }
         catch(error){
           setErr(true);
@@ -54,6 +58,20 @@ function New(props) {
         }
         // navigate("/");
    }
+  
+   const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocation(position.coords);
+        const geopoint = new firebase.firestore.GeoPoint(position.coords.latitude,position.coords.longitude);
+        setLocationfb(geopoint);
+        console.log(geopoint);
+      });
+     
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
     
   return (
   <>
@@ -86,17 +104,26 @@ function New(props) {
                       <div>
               <input  type="text" id="city" placeholder="CITY" /></div>
               <div>
-              <input type="text" id="state" placeholder="STATE" /></div>
+              <input  ut type="text" id="state" placeholder="STATE" /></div>
                   </div>
+
+                  <button onClick={handleGetLocation}>Get Location</button>
+      {location && (
+        <div>
+          <p>Latitude: {location.latitude}</p>
+          <p>Longitude: {location.longitude}</p>
+          
+        </div>
+      )}
                   <div className="info_blocks"/>
-            <button > + Location </button>
-    
+            {/* <button > + Location </button> */}
+            
                       <div>
               <div>
               <input name="pincode" id="pincode" placeholder="PINCODE" /></div>
                   </div>
               <input  type="password" placeholder="PASSWORD" id="password" name="password" />
-              <button className="buttonforregis" type="submit">REGISTER</button>
+              <button  className="buttonforregis" type="submit">REGISTER</button>
           </form>
           <button className="link-btn" >Already have an account? <br/> Login here.</button>
           {err && <span >Somthing Went Wrong..!</span>}

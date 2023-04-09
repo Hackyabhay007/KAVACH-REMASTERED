@@ -31,12 +31,21 @@
         }
 
         .item {
+          
           display: flex;
           gap: 20px;
 
           .qrcode-single{
             margin-top: 20px;
           }
+
+          .profile-pic{
+            width: 200px;
+    height: 300px;
+    overflow: hidden;
+          }
+
+         
           .itemImg {
             width: 100px;
             height: 100px;
@@ -61,12 +70,15 @@
                 margin-right: 5px;
               }
 
+              
+
               .itemValue {
                 font-weight: 300;
               }
             }
           }
         }
+        
       }
 
       .right {

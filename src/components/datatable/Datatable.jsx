@@ -4,6 +4,7 @@ import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Routes, Route, useParams } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
 import React, { useRef } from 'react';
 import {
   collection,
@@ -83,19 +84,33 @@ const Datatable = () => {
   
   //TO UPDATE DATA AS SOLVED
 
-  const handleDelete = async (email) => {
-    const updateUser = async () => {
-      const userRef = query(collection(db, "8yyunIKfcgOUyUMDS84RxKJ7uFW2"), where("email", "==", email));
-      const findUsers = await getDocs(userRef);
-      findUsers.forEach( async (user) => {
-       const getUser = doc(db, 'Users', user.id);
-       await updateDoc(getUser, {
-        ACTIVE_STATUS: "SOLVED" 
-       });
-      });
-     }
-     
+  const updateUserStatus = (userId) => {
+    const db = firebase.firestore();
+    const userRef = db.collection('8yyunIKfcgOUyUMDS84RxKJ7uFW2').doc(userId);
+    userRef.update({
+      ACTIVE_STATUS: 'SOLVED',
+    })
+    .then(() => {
+      console.log('User status updated successfully');
+    })
+    .catch((error) => {
+      console.error('Error updating user status:', error);
+    });
   };
+
+  // const handleDelete = async (email) => {
+  //   const updateUser = async () => {
+  //     const userRef = query(collection(db, "8yyunIKfcgOUyUMDS84RxKJ7uFW2"), where("email", "==", email));
+  //     const findUsers = await getDocs(userRef);
+  //     findUsers.forEach( async (user) => {
+  //      const getUser = doc(db, 'Users', user.id);
+  //      await updateDoc(getUser, {
+  //       ACTIVE_STATUS: "SOLVED" 
+  //      });
+  //     });
+  //    }
+     
+  // };
 
   
   const actionColumn = [
@@ -116,9 +131,9 @@ const Datatable = () => {
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.email)}
+              onClick={() => updateUserStatus(params.row.id)}
             >
-              SOLVED
+              SOLVE
             </div>
             <div>
       <audio ref={audioRef} src="beep-02.wav" />

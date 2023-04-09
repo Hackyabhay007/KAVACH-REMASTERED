@@ -65,34 +65,34 @@ function App() {
                   </RequireAuth>
                 }
               />
+            </Route>
             <Route path="history">
-               <Route
-                 index
-                 element={
-                   <RequireAuth>
-                     <HistoryList/>
-                   </RequireAuth>
-                 }
-               />
-               </Route>
               <Route
-                path=":productId"
+                index
                 element={
                   <RequireAuth>
-                    <Single />
+                    <HistoryList />
                   </RequireAuth>
                 }
               />
-              {/* <Route
-                index
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={productInputs} title="Add New Product" />
-                  </RequireAuth>
-                }
-              /> */}
             </Route>
+            <Route
+              path=":productId"
+              element={
+                <RequireAuth>
+                  <Single />
+                </RequireAuth>
+              }
+            />
+            {/* <Route
+              index
+              path="new"
+              element={
+                <RequireAuth>
+                  <New inputs={productInputs} title="Add New Product" />
+                </RequireAuth>
+              }
+            /> */}
           </Route>
         </Routes>
       </BrowserRouter>

@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import Qrcode from "../../components/chart/Qrcode";
+import Profile from "../../components/chart/Profile";
 import List from "../../components/table/Table";
 import firebase from 'firebase/compat/app';
 import React, { useState, useEffect } from 'react';
@@ -66,10 +67,17 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
+
+            
      
             <h1 className="title">Information</h1>
             <div className="item">
-          
+      
+              
+           
+            <div className="profile-pic">
+               <Profile data={user.userPhotoLink}  size={20} />
+               </div>
               <div className="details">
                 <h1 className="itemTitle">{user.fullname}</h1>
             
@@ -113,6 +121,8 @@ const Single = () => {
                <div className="qrcode-single">
                <Qrcode data={userId} size={150} />
                </div>
+
+               
                
               </div>
             </div>

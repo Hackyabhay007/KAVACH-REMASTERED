@@ -37,6 +37,7 @@ const Home = () => {
 
 
   const [users, setUsers] = useState([]);
+  const [solved, setSolved] = useState([]);
 // Now you can use Firebase services
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -46,11 +47,15 @@ const db = firebase.firestore();
     const docRef = db.collection('8yyunIKfcgOUyUMDS84RxKJ7uFW2');
     const unsubscribe = docRef.onSnapshot((querySnapshot) => {
       const usersData = [];
+      const solveddata = [];
       querySnapshot.forEach((doc) => {
         if (doc.exists) {
         if(doc.data().ACTIVE_STATUS=="UNSOLVED")
         {
           usersData.push(doc.data());
+        }
+        else if(doc.data().ACTIVE_STATUS=="SOLVED"){
+          solveddata.push(doc.data());
         }
          console.log(usersData);
         
@@ -59,6 +64,7 @@ const db = firebase.firestore();
         }
       });
       setUsers(usersData);
+      setSolved(solveddata);
     });
     return unsubscribe;
   }, []);
@@ -90,7 +96,7 @@ const db = firebase.firestore();
           </div>
           <div className="total-users">
             <p className="total-users-tag">TOTAL CASES TILL NOW</p>
-            <p className="total-users-active-data">0</p>
+            <p className="total-users-active-data">{solved.length}</p>
           </div>
        </div>
         {/* <div className="listContainer">
