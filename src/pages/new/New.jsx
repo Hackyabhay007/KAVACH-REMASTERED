@@ -1,145 +1,111 @@
-import "./new.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useEffect, useState } from "react";
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
-import { auth, db, storage } from "../../firebase";
+import React, { useState } from 'react'
+// import logandsignup from '../css/cssforlogandsignup/logandsignup.css'
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { auth } from '../../firebase'
+import { doc, setDoc } from "firebase/firestore"; 
+import { db } from '../../firebase'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+// import { useNavigate } from 'react-router-dom';
 
-const New = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
-  const [data, setData] = useState({});
-  const [per, setPerc] = useState(null);
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
-
-      console.log(name);
-      const storageRef = ref(storage, file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPerc(progress);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
-          });
+function Signup(props) {
+  
+  let latitude = props.lat;
+  let longitude = props.lng;
+  
+  function addLocation(latitude, longitude) {
+  let location = new firebase.firestore.GeoPoint(latitude,longitude);
+  return location;
+  
+  }
+ 
+  // let lastloc=addLocation(latitude,longitude);
+  
+  
+        const [err,setErr] = useState(false);
+        // const navigate = useNavigate();
+        const handleSubmit = async (e) => {
+        e.preventDefault();
+        const stationName=e.target[0].value;
+        const email=e.target[1].value;
+        const phonenumber=e.target[2].value;
+        const city=e.target[3].value;
+        const state=e.target[4].value;
+        // const location='fsdfsdfsd';
+        const pincode=e.target[6].value;
+        const password=e.target[7].value;
+        try{
+          const res = await createUserWithEmailAndPassword(auth, email, password)
+          await setDoc(doc(db,'Policedb',res.user.uid),{
+            uid:res.user.uid,
+            stationName,
+            email,
+            phonenumber,
+            city,
+            state,
+            // location,
+            pincode,
+          }); 
         }
-      );
-    };
-    file && uploadFile();
-  }, [file]);
-
-  console.log(data);
-
-  const handleInput = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-
-    setData({ ...data, [id]: value });
-  };
-
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      await setDoc(doc(db, "users", res.user.uid), {
-        ...data,
-        timeStamp: serverTimestamp(),
-      });
-      navigate(-1)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+        catch(error){
+          setErr(true);
+          console.log(error);
+        }
+        // navigate("/");
+   }
+    
   return (
-    <div className="new">
-      <Sidebar />
-      <div className="newContainer">
-        <Navbar />
-        <div className="top">
-          <h1>{title}</h1>
-        </div>
-        <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <form onSubmit={handleAdd}>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleInput}
-                  />
-                </div>
-              ))}
-              <button disabled={per !== null && per < 100} type="submit">
-                Send
-              </button>
-            </form>
-          </div>
-        </div>
+  <>
+     
+    <div className="navbar">
+        <img src="" alt="LOGO" />
       </div>
-    </div>
-  );
-};
+          <div className='auth-form-container'>
+              <div className="heading">
+                      <div>
+                          <img className="img2" src="" alt="LOGO" />
+                      </div>
+                      <div>
+                          <h2>REGISTRATION</h2>
+                      </div>
+                  </div>
+              <form onSubmit={handleSubmit} className="register-form"  >
+                  <div className="info_blocks">
+                  <div>
+                  <input type="text" name="name" id="name" placeholder="STATION NAME" />
+                  </div>
+                  <div>
+                  <input type="email" placeholder="ADMIN EMAIL" id="email" name="email" /></div>
+                  </div>
+                  <div>
+                  <input type="phone" maxLength='10' placeholder="ADMIN PhoneNumber" id="phone" name="phone" /></div>
+                 
+                 
+                  <div className="info_blocks">
+                      <div>
+              <input  type="text" id="city" placeholder="CITY" /></div>
+              <div>
+              <input type="text" id="state" placeholder="STATE" /></div>
+                  </div>
+                  <div className="info_blocks"/>
+            <button > + Location </button>
+    
+                      <div>
+              <div>
+              <input name="pincode" id="pincode" placeholder="PINCODE" /></div>
+                  </div>
+              <input  type="password" placeholder="PASSWORD" id="password" name="password" />
+              <button className="buttonforregis" type="submit">REGISTER</button>
+          </form>
+          <button className="link-btn" >Already have an account? <br/> Login here.</button>
+          {err && <span >Somthing Went Wrong..!</span>}
+              </div>
+         
 
-export default New;
+
+  </>
+  )
+}
+
+export default Signup

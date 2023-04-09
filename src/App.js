@@ -63,12 +63,12 @@ function App() {
                 }
               />
             </Route>
-            <Route path="products">
+            <Route path="new">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List />
+                   <New inputs={productInputs} title="Add New Product" />
                   </RequireAuth>
                 }
               />
@@ -80,14 +80,15 @@ function App() {
                   </RequireAuth>
                 }
               />
-              <Route
+              {/* <Route
+                index
                 path="new"
                 element={
                   <RequireAuth>
                     <New inputs={productInputs} title="Add New Product" />
                   </RequireAuth>
                 }
-              />
+              /> */}
             </Route>
           </Route>
         </Routes>
