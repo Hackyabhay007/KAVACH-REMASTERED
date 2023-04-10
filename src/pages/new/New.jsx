@@ -32,10 +32,12 @@ function New(props) {
         const pincode=e.target[5].value;
         const password=e.target[6].value;
         const location=Locationfb;
+        console.log(email);
+        console.log(pincode);
         try{
        if(location!=null)
        {
-        
+      
         const res = await createUserWithEmailAndPassword(auth, email, password)
         await setDoc(doc(db,'Policedb',res.user.uid),{
           uid:res.user.uid,
@@ -120,9 +122,9 @@ function New(props) {
             
                       <div>
               <div>
-              <input name="pincode" id="pincode" placeholder="PINCODE" /></div>
+              <input type="password" name="pincode" id="pincode" placeholder="PASSWORD" /></div>
                   </div>
-              <input  type="password" placeholder="PASSWORD" id="password" name="password" />
+              <input   placeholder="pincode" id="password" name="password" />
               <button  className="buttonforregis" type="submit">REGISTER</button>
           </form>
           <button className="link-btn" >Already have an account? <br/> Login here.</button>

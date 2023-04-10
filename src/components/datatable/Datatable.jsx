@@ -22,6 +22,7 @@ const Datatable = () => {
   const audioRef = useRef(null);
   
   useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem("user"));
     // const fetchData = async () => {
     //   let list = [];
     //   try {
@@ -44,7 +45,7 @@ const Datatable = () => {
 
     const unsub = onSnapshot(
           //yaha pe police station ki uid dalni hai
-      collection(db, "8yyunIKfcgOUyUMDS84RxKJ7uFW2"),
+      collection(db, currentUser.uid),
       (snapShot) => {
         let list = [];
         snapShot.docs.forEach((doc) => {
@@ -74,7 +75,7 @@ const Datatable = () => {
 
   // const handleDelete = async (id) => {
   //   try {
-  //     await deleteDoc(doc(db, "8yyunIKfcgOUyUMDS84RxKJ7uFW2", id));
+  //     await deleteDoc(doc(db, "OVhAxBxK3QOMKE1cgyZodXdCFJq1", id));
   //     setData(data.filter((item) => item.id !== id));
   //   } catch (err) {
   //     console.log(err);
@@ -83,10 +84,11 @@ const Datatable = () => {
 
   
   //TO UPDATE DATA AS SOLVED
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const updateUserStatus = (userId) => {
     const db = firebase.firestore();
-    const userRef = db.collection('8yyunIKfcgOUyUMDS84RxKJ7uFW2').doc(userId);
+    const userRef = db.collection(currentUser.uid).doc(userId);
     userRef.update({
       ACTIVE_STATUS: 'SOLVED',
     })
@@ -100,7 +102,7 @@ const Datatable = () => {
 
   // const handleDelete = async (email) => {
   //   const updateUser = async () => {
-  //     const userRef = query(collection(db, "8yyunIKfcgOUyUMDS84RxKJ7uFW2"), where("email", "==", email));
+  //     const userRef = query(collection(db, "OVhAxBxK3QOMKE1cgyZodXdCFJq1"), where("email", "==", email));
   //     const findUsers = await getDocs(userRef);
   //     findUsers.forEach( async (user) => {
   //      const getUser = doc(db, 'Users', user.id);

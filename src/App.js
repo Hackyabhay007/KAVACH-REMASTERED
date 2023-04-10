@@ -60,9 +60,9 @@ function App() {
               <Route
                 index
                 element={
-                  <RequireAuth>
+                 
                    <New inputs={productInputs} title="Add New Product" />
-                  </RequireAuth>
+                  
                 }
               />
             </Route>

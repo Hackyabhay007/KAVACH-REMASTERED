@@ -33,6 +33,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+
+const currentUser = JSON.parse(localStorage.getItem("user"));
 const Home = () => {
 
 
@@ -44,7 +46,7 @@ const db = firebase.firestore();
   useEffect(() => {
 
     
-    const docRef = db.collection('8yyunIKfcgOUyUMDS84RxKJ7uFW2');
+    const docRef = db.collection(currentUser.uid);
     const unsubscribe = docRef.onSnapshot((querySnapshot) => {
       const usersData = [];
       const solveddata = [];
@@ -87,7 +89,7 @@ const db = firebase.firestore();
       
         </div> */}
 
-        <Chart lat={30.268575} lng={77.993426}/>
+        <Chart lat={30.26500550141917} lng={78.00124078938529}/>
         
        <div className="bottom-menu">
           <div className="total-users">
