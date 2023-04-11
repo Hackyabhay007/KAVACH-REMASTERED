@@ -1,6 +1,6 @@
 
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 300 },
  
   {
     field: "Name",
@@ -43,7 +43,7 @@ export const userColumns = [
   {
     field: "Battery",
     headerName: "Battery",
-    width: 100,
+    width: 120,
     renderCell: (params) => {
       return (
         <div className={`cellWithStatus ${params.row.status}`}>
@@ -55,7 +55,7 @@ export const userColumns = [
   {
     field: "Date",
     headerName: "Date",
-    width: 100,
+    width: 110,
     renderCell: (params) => {
       return (
         <div className="cellWithStatus">
@@ -68,7 +68,7 @@ export const userColumns = [
   {
     field: "Time",
     headerName: "Time",
-    width: 100,
+    width: 110,
     renderCell: (params) => {
       return (
         <div className="cellWithStatus">
