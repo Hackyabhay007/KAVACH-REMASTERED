@@ -6,6 +6,7 @@ import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
 import Table from "../../components/table/Table";
 import { useEffect, useState } from "react";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import {
   collection,
   getDocs,
@@ -35,6 +36,12 @@ firebase.initializeApp(firebaseConfig);
 
 
 const currentUser = JSON.parse(localStorage.getItem("user"));
+console.log(currentUser);
+var stationName;
+const collectionName = 'Policedb'; // Replace with the actual collection name
+
+var latitude;
+var longitude ;
 const Home = () => {
 
 
@@ -45,6 +52,34 @@ const auth = firebase.auth();
 const db = firebase.firestore();
   useEffect(() => {
 
+
+    // Retrieve the document from Firestore
+db.collection(collectionName)
+.doc(currentUser.uid)
+.get()
+.then((doc) => {
+  if (doc.exists) {
+    // Access the stationName field from the document data
+     stationName = doc.data().stationName;
+    console.log('Station Name:', stationName);
+    const stationcoords = doc.data().location;
+
+    const geoPoint = doc.data().location;
+      
+// Access the latitude and longitude coordinates from the GeoPoint
+ latitude = geoPoint.latitude;
+ longitude = geoPoint.longitude;
+
+    console.log('Station lat:', latitude);
+    
+    console.log('Station lat:', longitude);
+  } else {
+    console.log('Document not found.');
+  }
+})
+.catch((error) => {
+  console.error('Error retrieving document:', error);
+});
     
     const docRef = db.collection(currentUser.uid);
     const unsubscribe = docRef.onSnapshot((querySnapshot) => {
@@ -69,8 +104,10 @@ const db = firebase.firestore();
       setSolved(solveddata);
     });
     return unsubscribe;
-  }, []);
+  }
+  , []);
   
+
 
 
 
@@ -78,7 +115,7 @@ const db = firebase.firestore();
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
-        <Navbar />
+        <Navbar stationName={stationName} />
         <div className="widgets">
          
           {/* <Widget type="order" />
@@ -89,7 +126,7 @@ const db = firebase.firestore();
       
         </div> */}
 
-        <Chart lat={30.26500550141917} lng={78.00124078938529}/>
+        <Chart lat={30.2650163202269} lng={ 78.00126773105667}/>
         
        <div className="bottom-menu">
           <div className="total-users">

@@ -9,7 +9,7 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const { dispatch } = useContext(DarkModeContext);
 
   return (
@@ -20,9 +20,9 @@ const Navbar = () => {
               src="https://res.cloudinary.com/dzuv2ssvs/image/upload/v1680801705/logo_kyyafx.png"
               alt=""
             />
-          <span className="logo">KAVACH</span>
+          <span className="logo">The Saviour |       {props.stationName}  </span>  
         
-   
+         
           {/* <input type="text" placeholder="Search..." />
           <SearchOutlinedIcon /> */}
         </div>
