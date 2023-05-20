@@ -16,6 +16,10 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 
 const Sidebar = () => {
+  function handleOut(){
+    localStorage.clear();
+    
+  }
   const { dispatch } = useContext(DarkModeContext);
   return (
     <div className="sidebar">
@@ -52,11 +56,12 @@ const Sidebar = () => {
             <span>Solved Cases</span>
           </li>
           </Link>
-
+        <Link to="/new" style={{ textDecoration: "none" }}>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span onClick={handleOut}>Logout</span>
           </li>
+          </Link>
         </ul>
       </div>
       <div className="bottom">

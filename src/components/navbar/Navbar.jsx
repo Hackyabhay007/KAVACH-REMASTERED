@@ -20,7 +20,7 @@ const Navbar = (props) => {
               src="https://res.cloudinary.com/dzuv2ssvs/image/upload/v1680801705/logo_kyyafx.png"
               alt=""
             />
-          <span className="logo">The Saviour |       {props.stationName}  </span>  
+          <span className="logo">The Saviour       {props.stationName}  </span>  
         
          
           {/* <input type="text" placeholder="Search..." />
