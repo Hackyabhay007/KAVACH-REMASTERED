@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import Qrcode from "../../components/chart/Qrcode";
 import Profile from "../../components/chart/Profile";
-import List from "../../components/table/Table";
+
 import firebase from 'firebase/compat/app';
 import React, { useState, useEffect } from 'react';
 import 'firebase/compat/auth';
@@ -52,14 +52,14 @@ const Single = () => {
         console.log("No such document!");
       }
     });
-  
+
     // Call unsubscribe to detach the listener when the component is unmounted
     return unsubscribe;
   }, [userId, db]);
   if (!user) {
     return <div>Loading...</div>;
   }
- 
+
   return (
     <div className="single">
       <Sidebar />
@@ -68,34 +68,34 @@ const Single = () => {
         <div className="top">
           <div className="left">
 
-            
-     
+
+
             <h1 className="title">Information</h1>
             <div className="item">
-      
-              
-           
-            <div className="profile-pic">
-               <Profile data={user.userPhotoLink}  size={20} />
-               </div>
+
+
+
+              <div className="profile-pic">
+                <Profile data={user.userPhotoLink} size={20} />
+              </div>
               <div className="details">
                 <h1 className="itemTitle">{user.fullname}</h1>
-            
+
                 <div className="detailItem">
                   <span className="itemKey">Aadhaar:</span>
                   <span className="itemValue">{user.aadhar}</span>
                 </div>
 
-                
+
                 <div className="detailItem">
                   <span className="itemKey">Phone Number:</span>
                   <span className="itemValue">{user.phonenumber}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Speed:</span>
-                  <span className="itemValue">{parseFloat(user.DeviceSpeed).toFixed(2)*18/5} kmph</span>
+                  <span className="itemValue">{parseFloat(user.DeviceSpeed).toFixed(2) * 18 / 5} kmph</span>
                 </div>
-                
+
                 <div className="detailItem">
                   <span className="itemKey">Battery Status:</span>
                   <span className="itemValue">{user.BatteryStatus}</span>
@@ -104,33 +104,33 @@ const Single = () => {
                 <div className="detailItem">
                   <span className="itemKey">Time:</span>
                   <span className="itemValue">
-                   { user.time}
+                    {user.time}
                   </span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Date:</span>
                   <span className="itemValue">{user.date}</span>
                 </div>
-                
+
 
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
                   <span className="itemValue">{user.email}</span>
                 </div>
-               
-               <div className="qrcode-single">
-               <Qrcode data={userId} size={150} />
-               </div>
 
-               
-               
+                <div className="qrcode-single">
+                  <Qrcode data={userId} size={150} />
+                </div>
+
+
+
               </div>
             </div>
           </div>
           <div className="right">
-            <Chart lat={user.lat} lng={user.lng}/>
+            <Chart lat={user.lat} lng={user.lng} />
           </div>
-         
+
         </div>
         {/* <div className="bottom">
         <h1 className="title">Last Transactions</h1>

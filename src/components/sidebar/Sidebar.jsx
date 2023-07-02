@@ -22,41 +22,44 @@ const Sidebar = () => {
       {/* <div className="top">
       
       </div> */}
-     
-     
+
+
       <div className="center">
         <ul>
           <p className="title">MENU</p>
 
 
           <li>
-        
-          <DashboardIcon className="icon" />
-          <Link to="/" style={{ textDecoration: "none" }}>
-          <span>Area Map</span>
-        </Link>
+
+            <DashboardIcon className="icon" />
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span>Area Map</span>
+            </Link>
           </li>
-         
+
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
               <span> Active Users</span>
             </li>
           </Link>
-       
+
           {/* <p className="title">Other Features</p> */}
           <Link to="/history" style={{ textDecoration: "none" }}>
-          
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Solved Cases</span>
-          </li>
+
+            <li>
+              <AccountCircleOutlinedIcon className="icon" />
+              <span>Solved Cases</span>
+            </li>
           </Link>
 
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
-          </li>
+          <Link to="/login" className="logout">
+            <li>
+              <ExitToAppIcon className="icon" />
+              <span>Logout</span>
+            </li>
+          </Link>
+
         </ul>
       </div>
       <div className="bottom">

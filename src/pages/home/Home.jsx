@@ -1,10 +1,7 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "./home.scss";
-import Widget from "../../components/widget/Widget";
-import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
-import Table from "../../components/table/Table";
 import { useEffect, useState } from "react";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import {
@@ -12,7 +9,7 @@ import {
   getDocs,
   deleteDoc,
   query, where,
-  updateDoc ,
+  updateDoc,
   doc,
   onSnapshot,
 } from "firebase/firestore";
@@ -41,61 +38,60 @@ var stationName;
 const collectionName = 'Policedb'; // Replace with the actual collection name
 
 var latitude;
-var longitude ;
+var longitude;
 const Home = () => {
 
 
   const [users, setUsers] = useState([]);
   const [solved, setSolved] = useState([]);
-// Now you can use Firebase services
-const auth = firebase.auth();
-const db = firebase.firestore();
+  // Now you can use Firebase services
+  const auth = firebase.auth();
+  const db = firebase.firestore();
   useEffect(() => {
 
 
     // Retrieve the document from Firestore
-db.collection(collectionName)
-.doc(currentUser.uid)
-.get()
-.then((doc) => {
-  if (doc.exists) {
-    // Access the stationName field from the document data
-     stationName = doc.data().stationName;
-    console.log('Station Name:', stationName);
-    const stationcoords = doc.data().location;
+    db.collection(collectionName)
+      .doc(currentUser.uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          // Access the stationName field from the document data
+          stationName = doc.data().stationName;
+          console.log('Station Name:', stationName);
+          const stationcoords = doc.data().location;
 
-    const geoPoint = doc.data().location;
-      
-// Access the latitude and longitude coordinates from the GeoPoint
- latitude = geoPoint.latitude;
- longitude = geoPoint.longitude;
+          const geoPoint = doc.data().location;
 
-    console.log('Station lat:', latitude);
-    
-    console.log('Station lat:', longitude);
-  } else {
-    console.log('Document not found.');
-  }
-})
-.catch((error) => {
-  console.error('Error retrieving document:', error);
-});
-    
+          // Access the latitude and longitude coordinates from the GeoPoint
+          latitude = geoPoint.latitude;
+          longitude = geoPoint.longitude;
+
+          console.log('Station lat:', latitude);
+
+          console.log('Station lat:', longitude);
+        } else {
+          console.log('Document not found.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving document:', error);
+      });
+
     const docRef = db.collection(currentUser.uid);
     const unsubscribe = docRef.onSnapshot((querySnapshot) => {
       const usersData = [];
       const solveddata = [];
       querySnapshot.forEach((doc) => {
         if (doc.exists) {
-        if(doc.data().ACTIVE_STATUS=="UNSOLVED")
-        {
-          usersData.push(doc.data());
-        }
-        else if(doc.data().ACTIVE_STATUS=="SOLVED"){
-          solveddata.push(doc.data());
-        }
-         console.log(usersData);
-        
+          if (doc.data().ACTIVE_STATUS == "UNSOLVED") {
+            usersData.push(doc.data());
+          }
+          else if (doc.data().ACTIVE_STATUS == "SOLVED") {
+            solveddata.push(doc.data());
+          }
+          console.log(usersData);
+
         } else {
           console.log("No such document!");
         }
@@ -105,8 +101,8 @@ db.collection(collectionName)
     });
     return unsubscribe;
   }
-  , []);
-  
+    , []);
+
 
 
 
@@ -117,7 +113,7 @@ db.collection(collectionName)
       <div className="homeContainer">
         <Navbar stationName={stationName} />
         <div className="widgets">
-         
+
           {/* <Widget type="order" />
           <Widget type="earning" /> */}
         </div>
@@ -126,9 +122,9 @@ db.collection(collectionName)
       
         </div> */}
 
-        <Chart lat={30.2650163202269} lng={ 78.00126773105667}/>
-        
-       <div className="bottom-menu">
+        <Chart lat={30.2650163202269} lng={78.00126773105667} />
+
+        <div className="bottom-menu">
           <div className="total-users">
             <p className="total-users-tag">USERS ACTIVE</p>
             <p className="total-users-active-data">{users.length}</p>
@@ -137,14 +133,14 @@ db.collection(collectionName)
             <p className="total-users-tag">TOTAL CASES TILL NOW</p>
             <p className="total-users-active-data">{solved.length}</p>
           </div>
-       </div>
+        </div>
         {/* <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
           <Table />
         </div> */}
-     
+
       </div>
-      
+
     </div>
   );
 };

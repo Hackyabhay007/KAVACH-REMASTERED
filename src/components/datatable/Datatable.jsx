@@ -11,7 +11,7 @@ import {
   getDocs,
   deleteDoc,
   query, where,
-  updateDoc ,
+  updateDoc,
   doc,
   onSnapshot,
 } from "firebase/firestore";
@@ -20,7 +20,7 @@ import { db } from "../../firebase";
 const Datatable = () => {
   const [data, setData] = useState([]);
   const audioRef = useRef(null);
-  
+
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("user"));
     // const fetchData = async () => {
@@ -44,20 +44,20 @@ const Datatable = () => {
 
 
     const unsub = onSnapshot(
-          //yaha pe police station ki uid dalni hai
+      //yaha pe police station ki uid dalni hai
       collection(db, currentUser.uid),
       (snapShot) => {
         let list = [];
         snapShot.docs.forEach((doc) => {
-          
-          if(doc.data().ACTIVE_STATUS=="UNSOLVED"){
+
+          if (doc.data().ACTIVE_STATUS == "UNSOLVED") {
             if (audioRef.current) {
               audioRef.current.pause();
               audioRef.current.currentTime = 0;
               audioRef.current.play();
-            } 
+            }
             list.push({ id: doc.id, ...doc.data() });
-           
+
           }
           console.log(list);
         });
@@ -82,7 +82,7 @@ const Datatable = () => {
   //   }
   // };
 
-  
+
   //TO UPDATE DATA AS SOLVED
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -92,12 +92,12 @@ const Datatable = () => {
     userRef.update({
       ACTIVE_STATUS: 'SOLVED',
     })
-    .then(() => {
-      console.log('User status updated successfully');
-    })
-    .catch((error) => {
-      console.error('Error updating user status:', error);
-    });
+      .then(() => {
+        console.log('User status updated successfully');
+      })
+      .catch((error) => {
+        console.error('Error updating user status:', error);
+      });
   };
 
   // const handleDelete = async (email) => {
@@ -111,10 +111,10 @@ const Datatable = () => {
   //      });
   //     });
   //    }
-     
+
   // };
 
-  
+
   const actionColumn = [
     {
       field: "action",
@@ -122,13 +122,13 @@ const Datatable = () => {
       width: 200,
       renderCell: (params) => {
         var dA = params.row.lat;
-  var sA = dA + '';
-  var dnA = parseFloat(sA);
+        var sA = dA + '';
+        var dnA = parseFloat(sA);
         console.log(params);
         return (
           <div className="cellAction">
-     
-            <Link to={params.row.id+"/"+params.row.fullname+"/"+params.row.email+"/"+dnA} style={{ textDecoration: "none" }}>
+
+            <Link to={params.row.id + "/" + params.row.fullname + "/" + params.row.email + "/" + dnA} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -138,11 +138,11 @@ const Datatable = () => {
               SOLVE
             </div>
             <div>
-      <audio ref={audioRef} src="beep-02.wav" />
-      <p>Danger</p>
-    </div>
+              <audio ref={audioRef} src="beep-02.wav" />
+              <p>Danger</p>
+            </div>
           </div>
-          
+
         );
       },
     },
@@ -161,7 +161,7 @@ const Datatable = () => {
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        // checkboxSelection
+      // checkboxSelection
       />
     </div>
   );
